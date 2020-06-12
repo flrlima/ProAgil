@@ -1,18 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using ProAgil.WebAPI.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Sqlite;
 
 namespace ProAgil.WebAPI
 {
@@ -55,6 +47,8 @@ namespace ProAgil.WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            app.UseStaticFiles();
         }
     }
 }

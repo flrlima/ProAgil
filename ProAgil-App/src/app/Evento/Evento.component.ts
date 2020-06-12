@@ -7,8 +7,22 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
   styleUrls: ['./Evento.component.css']
 })
 export class EventoComponent implements OnInit {
+  
+  _filtroLista: string;
+  get filtroLista(){ return this._filtroLista; }
+  set filtroLista(value: string){
+    this._filtroLista = value;
+    this.eventosFiltrados = this.filtroLista ? 
+    this.filtrarEvento(this.filtroLista) : this.eventos;
+  }
 
-  eventos: any;
+  eventosFiltrados: any = [];
+  eventos: any = [];
+  imagemLargura = 50;
+  imagemMargem = 2;
+  mostrarImagem = false;
+  corVerdeCorVermelho = 'success';
+  exibeOcultaText = 'Exibir';
 
   constructor(private http: HttpClient) { }
 
@@ -16,9 +30,32 @@ export class EventoComponent implements OnInit {
     this.getEventos();
   }
 
-  getEventos(){
+  filtrarEvento(filtrarPor: string): any {
+    filtrarPor = filtrarPor.toLocaleLowerCase();
+    return this.eventos.filter(
+      evento => evento.tema.toLocaleLowerCase().indexOf(filtrarPor) !== -1
+    );
+  }
+
+  exibeOcultaImagem() {
+    this.mostrarImagem = !this.mostrarImagem;
+    this.alteraCor();
+    this.alterarTextMostrarOcultar();
+  }
+
+  alterarTextMostrarOcultar() {
+    this.exibeOcultaText = this.exibeOcultaText === 'Exibir' ?
+      'Ocultar' : 'Exibir';
+  }
+
+  alteraCor() {
+    this.corVerdeCorVermelho = this.corVerdeCorVermelho === 'success' ?
+      'danger' : 'success';
+  }
+
+  getEventos() {
     this.http.get('http://127.0.0.1:5000/weatherForecast').subscribe(
-      response =>  {
+      response => {
         this.eventos = response;
       }, error => {
         console.log(error, "Erro na requisição");
