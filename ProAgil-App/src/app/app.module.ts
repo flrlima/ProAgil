@@ -1,12 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TooltipModule } from 'ngx-bootstrap/tooltip' ;
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal' ;
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { AppComponent } from './app.component';
 import { EventoComponent } from './Evento/Evento.component';
@@ -26,15 +27,17 @@ import { EventoService } from './_services/evento.service';
       BrowserAnimationsModule,
       BrowserModule,
       BsDropdownModule.forRoot(),
+      BsDatepickerModule.forRoot(),
       TooltipModule.forRoot(),
       ModalModule.forRoot(),
       AppRoutingModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      ReactiveFormsModule
    ],
    providers: [
       //Opcional
-      EventoService
+      // EventoService
    ],
    bootstrap: [
       AppComponent
