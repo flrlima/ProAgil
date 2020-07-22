@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ProAgil.Repository;
+using AutoMapper;
+using System.Reflection;
+using ProAgil.WebAPI.Helpers;
 
 namespace ProAgil.WebAPI
 {
@@ -25,6 +28,8 @@ namespace ProAgil.WebAPI
             );
 
             services.AddScoped<IProAgilRepository, ProAgilRepository>();
+
+            services.AddAutoMapper(Assembly.GetAssembly(typeof(AutoMapperProfile)));
 
             services.AddControllers();
             services.AddCors();
