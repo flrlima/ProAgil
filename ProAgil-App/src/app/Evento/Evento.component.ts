@@ -5,7 +5,8 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale, ptBrLocale } from 'ngx-bootstrap/chronos';
-import { JsonPipe } from '@angular/common';
+import { ToastrService } from 'ngx-toastr'
+// import { JsonPipe } from '@angular/common';
 defineLocale('pt-br', ptBrLocale);
 
 @Component({
@@ -14,6 +15,8 @@ defineLocale('pt-br', ptBrLocale);
   styleUrls: ['./Evento.component.css']
 })
 export class EventoComponent implements OnInit {
+
+  titulo = 'Eventos';
 
   eventosFiltrados: Evento[];
   eventos: Evento[];
@@ -36,6 +39,7 @@ export class EventoComponent implements OnInit {
     , private modalService: BsModalService
     , private formBuilder: FormBuilder
     , private localeService: BsLocaleService
+    , private toastr: ToastrService
   ) {
     this.localeService.use('pt-br');
   }
@@ -101,18 +105,20 @@ export class EventoComponent implements OnInit {
           (novoEvento: Evento) => {
             template.hide();
             this.getAllEventos();
+            this.toastr.success('Inserido com sucesso!', 'Tudo certo');
           }, error => {
-            console.log(error)
+            this.toastr.error(`Erro ao Inserir: ${error}`, 'Eitaaaa');
           }
         )
       } else {
-        this.evento = Object.assign({id: this.evento.id}, this.registerForm.value);
+        this.evento = Object.assign({ id: this.evento.id }, this.registerForm.value);
         this.eventoService.putEvento(this.evento).subscribe(
           () => {
             template.hide();
             this.getAllEventos();
-          }, error => {
-            console.log(error)
+            this.toastr.success('Editado com sucesso!', 'Tudo certo');
+          }, error => {            
+            this.toastr.error(`Erro ao Editar: ${error}`, 'Eitaaaa');
           }
         )
       }
@@ -123,16 +129,19 @@ export class EventoComponent implements OnInit {
     this.evento = evento;
     this.bodyDeletarEvento = `Tem certeza que deseja excluir o Evento: ${evento.tema}, Código: ${evento.tema}`;
   }
-  
+
   confirmeDelete(template: any) {
     this.eventoService.deleteEvento(this.evento.id).subscribe(
       () => {
-          template.hide();
-          this.getAllEventos();
-        }, error => {
-          console.log(error);
-        }
-    )}
+        template.hide();
+        this.getAllEventos();
+        this.toastr.success('Deletado com sucesso', 'Tudo certo');
+      }, error => {
+        this.toastr.error(`Erro ao tentar deletar: ${error}`, 'Eitaaaa');
+        console.log(error);
+      }
+    )
+  }
 
   getAllEventos() {
     this.eventoService.getAllEventos().subscribe(

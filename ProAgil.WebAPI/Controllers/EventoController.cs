@@ -98,14 +98,14 @@ namespace ProAgil.WebAPI.Controllers
 
                 _mapper.Map(model, evento);
 
-                _proAgilRepository.Update(model);
+                _proAgilRepository.Update(evento);
 
                 if (await _proAgilRepository.SaveChangesAsync())
                     return Created($"/api/evento/{model.Id}", _mapper.Map<EventoDto>(evento));
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou " + ex.Message);
             }
 
             return BadRequest();

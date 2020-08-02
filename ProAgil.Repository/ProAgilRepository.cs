@@ -50,7 +50,7 @@ namespace ProAgil.Repository
 
             query = query
                 .AsNoTracking()
-                .OrderBy(c => c.Id);
+                .OrderBy(c => c.DataEvento);
 
             return await query.ToArrayAsync();
         }
@@ -92,7 +92,7 @@ namespace ProAgil.Repository
 
             query = query
                 .AsNoTracking()
-                .OrderByDescending(c => c.Id)
+                .OrderByDescending(c => c.DataEvento)
                 .Where(c => c.Id == EventoId);
 
             return await query.FirstOrDefaultAsync();
